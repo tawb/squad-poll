@@ -2,6 +2,7 @@ import domain.Poll;
 import factory.FoodPollFactory;
 import builder.PollBuilder;
 import java.util.List;
+import prototype.PollPrototype;
 //////testing
 public class Main {
     public static void main(String[] args) {
@@ -21,5 +22,9 @@ public class Main {
         for (var option : moviePoll.getOptions()) {
             System.out.println(" - " + option.getLabel());
         }
+        Poll clonedPoll = PollPrototype.cloneAsTemplate(foodPoll);
+        System.out.println(clonedPoll.getQuestion());
+        System.out.println("Original id: " + foodPoll.getId());
+        System.out.println("Clone id: " + clonedPoll.getId());
     }
 }
