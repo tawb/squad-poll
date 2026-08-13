@@ -4,6 +4,7 @@ import builder.PollBuilder;
 import java.util.List;
 import prototype.PollPrototype;
 import bridge.*;
+import composite.*;
 //////testing
 public class Main {
     public static void main(String[] args) {
@@ -34,5 +35,16 @@ public class Main {
 
         PollDisplay detailedDiscord = new DetailedPollDisplay(new DiscordRenderer());
         detailedDiscord.show(foodPoll);
+
+        ///composite
+        PollGroup weekendPlans = new PollGroup("Weekend Plans");
+        weekendPlans.add(new PollLeaf(foodPoll));
+        weekendPlans.add(new PollLeaf(moviePoll));
+
+        System.out.println(weekendPlans.describe());
+        System.out.println("Fully closed? " + weekendPlans.isFullyClosed());
+        PollComponent foodComponent = new PollLeaf(foodPoll);
+        System.out.println(foodComponent.describe());
+        System.out.println("Fully closed? " + foodComponent.isFullyClosed());
     }
 }
