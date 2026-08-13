@@ -32,4 +32,7 @@ public class PollService {
     public void close(String pollId) {
         registry.find(pollId).ifPresent(poll -> poll.setStatus(PollStatus.CLOSED));
     }
+    public void showResults(String pollId) {
+        registry.find(pollId).ifPresent(poll -> uiFactory.createRenderer().render(poll));
+    }
 }
