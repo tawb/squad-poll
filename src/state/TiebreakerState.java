@@ -8,7 +8,7 @@ import domain.PollStatus;
 public class TiebreakerState implements PollState {
     @Override
     public void vote(Poll poll, String friendName, String optionId) {
-        System.out.println("Voting ended — poll is in tiebreaker mode.");
+        System.out.println("Voting ended poll is in tiebreaker mode.");
     }
 
     @Override
