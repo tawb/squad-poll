@@ -9,6 +9,8 @@ import java.util.List;
 import builder.PollBuilder;
 import domain.PollStatus;
 import adapter.PollSource;
+import prototype.PollPrototype;
+import bridge.*;
 public class PollService {
     private final PollRegistry registry = PollRegistry.getInstance();
     private final PollUIFactory uiFactory = new ConsolePollUIFactory();
@@ -40,5 +42,15 @@ public class PollService {
         Poll poll = source.toPoll();
         registry.register(poll);
         return poll;
+    }
+    public Poll cloneAsTemplate(String pollId) {
+        return registry.find(pollId)
+                .map(PollPrototype::cloneAsTemplate)
+                .map(clone -> { registry.register(clone); return clone; })
+                .orElse(null);
+    }
+    public void showDetailed(String pollId) {
+        registry.find(pollId).ifPresent(poll ->
+                new DetailedPollDisplay(new ConsoleRenderer()).show(poll));
     }
 }
