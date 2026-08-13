@@ -8,6 +8,7 @@ import factory.PollFactory;
 import java.util.List;
 import builder.PollBuilder;
 import domain.PollStatus;
+import adapter.PollSource;
 public class PollService {
     private final PollRegistry registry = PollRegistry.getInstance();
     private final PollUIFactory uiFactory = new ConsolePollUIFactory();
@@ -34,5 +35,10 @@ public class PollService {
     }
     public void showResults(String pollId) {
         registry.find(pollId).ifPresent(poll -> uiFactory.createRenderer().render(poll));
+    }
+    public Poll createPollFromLegacy(PollSource source) {
+        Poll poll = source.toPoll();
+        registry.register(poll);
+        return poll;
     }
 }
