@@ -1,11 +1,13 @@
 import domain.Poll;
-import factory.FoodPollFactory;
+import factory.*;
 import builder.PollBuilder;
 import java.util.List;
 import prototype.PollPrototype;
 import bridge.*;
 import composite.*;
 import decorator.*;
+import flyweight.Icon;
+import flyweight.IconFactory;
 //////testing
 public class Main {
     public static void main(String[] args) {
@@ -53,5 +55,22 @@ public class Main {
         PollComponent hotAndEndingSoon = new EndingSoonDecorator(hotPoll);
 
         System.out.println(hotAndEndingSoon.describe());
+
+
+        // test flyweight wired into factory
+        Poll coffeePoll = new CoffeePollFactory().createPoll("Coffee run?", List.of("Starbucks", "Local cafe"));
+        System.out.println(coffeePoll.getQuestion());
+
+        // test flyweight wired into decorators
+        PollComponent plainFoodPoll = new PollLeaf(foodPoll);
+        PollComponent hotFoodPoll = new HotPollDecorator(plainFoodPoll);
+        hotAndEndingSoon = new EndingSoonDecorator(hotFoodPoll);
+        System.out.println(hotAndEndingSoon.describe());
+
+        // prove the icons are actually shared, not recreated
+        Icon fire1 = IconFactory.get("🔥");
+        Icon fire2 = IconFactory.get("🔥");
+        System.out.println("Same fire icon object? " + (fire1 == fire2));
+        System.out.println("Pool size: " + IconFactory.poolSize());
     }
 }
