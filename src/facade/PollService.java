@@ -7,6 +7,7 @@ import domain.Poll;
 import factory.PollFactory;
 import java.util.List;
 import builder.PollBuilder;
+import domain.PollStatus;
 public class PollService {
     private final PollRegistry registry = PollRegistry.getInstance();
     private final PollUIFactory uiFactory = new ConsolePollUIFactory();
@@ -23,5 +24,12 @@ public class PollService {
         Poll poll = builder.build();
         registry.register(poll);
         return poll;
+    }
+    // TODO:  i will uncomment once state branch is merged in
+    // public void vote(String pollId, String friendName, String optionId) {
+    //     registry.find(pollId).ifPresent(poll -> poll.vote(friendName, optionId));
+    // }
+    public void close(String pollId) {
+        registry.find(pollId).ifPresent(poll -> poll.setStatus(PollStatus.CLOSED));
     }
 }
