@@ -1,11 +1,14 @@
 package domain;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import state.PollStateFactory;
+import state.PollState;
 import java.util.UUID;//Universally Unique Identifier
+
 public class Poll {
     private final String id;
     private final String question;
@@ -43,5 +46,9 @@ public class Poll {
     }
     public void castVote(String friendName, String optionId) {
         votes.put(friendName, optionId);
+    }
+    public void vote(String friendName, String optionId) {
+        PollState currentState = PollStateFactory.getState(status);
+        currentState.vote(this, friendName, optionId);
     }
 }
