@@ -5,6 +5,7 @@ import java.util.List;
 import prototype.PollPrototype;
 import bridge.*;
 import composite.*;
+import decorator.*;
 //////testing
 public class Main {
     public static void main(String[] args) {
@@ -46,5 +47,11 @@ public class Main {
         PollComponent foodComponent = new PollLeaf(foodPoll);
         System.out.println(foodComponent.describe());
         System.out.println("Fully closed? " + foodComponent.isFullyClosed());
+        ////decorator
+        PollComponent plainPoll = new PollLeaf(foodPoll);
+        PollComponent hotPoll = new HotPollDecorator(plainPoll);
+        PollComponent hotAndEndingSoon = new EndingSoonDecorator(hotPoll);
+
+        System.out.println(hotAndEndingSoon.describe());
     }
 }
