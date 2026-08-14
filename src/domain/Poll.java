@@ -1,6 +1,7 @@
 package domain;
-
-
+import iterator.PollIterator;
+import iterator.PollOptionIterator;
+import observer.PollObserver;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 import state.PollStateFactory;
 import state.PollState;
 import java.util.UUID;//Universally Unique Identifier
+import memento.PollMemento;
 
 public class Poll {
     private final String id;
@@ -15,6 +17,7 @@ public class Poll {
     private final List<PollOption> options;
     private final Map<String, String> votes;
     private PollStatus status;
+    private final List<PollObserver> observers = new ArrayList<>();
     public Poll(String question, List<PollOption> options) {
         this.id = UUID.randomUUID().toString().substring(0, 8);//each id is 8 chars enough for our program
         this.question = question;
@@ -50,5 +53,26 @@ public class Poll {
     public void vote(String friendName, String optionId) {
         PollState currentState = PollStateFactory.getState(status);
         currentState.vote(this, friendName, optionId);
+    }
+    public void addObserver(PollObserver observer) {
+        observers.add(observer);
+    }
+
+    public void notifyObservers(String message) {
+        for (PollObserver observer : observers) {
+            observer.update(message);
+        }
+    }
+    public PollIterator createIterator() {
+        return new PollOptionIterator(options);
+    }
+    public memento.PollMemento createMemento() {
+        return new memento.PollMemento(votes, status.name());
+    }
+
+    public void restore(PollMemento memento) {
+        votes.clear();
+        votes.putAll(memento.getVotesSnapshot());
+        this.status = PollStatus.valueOf(memento.getStatusSnapshot());
     }
 }
