@@ -1,6 +1,6 @@
 package domain;
 
-
+import observer.PollObserver;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +15,7 @@ public class Poll {
     private final List<PollOption> options;
     private final Map<String, String> votes;
     private PollStatus status;
+    private final List<PollObserver> observers = new ArrayList<>();
     public Poll(String question, List<PollOption> options) {
         this.id = UUID.randomUUID().toString().substring(0, 8);//each id is 8 chars enough for our program
         this.question = question;
@@ -50,5 +51,14 @@ public class Poll {
     public void vote(String friendName, String optionId) {
         PollState currentState = PollStateFactory.getState(status);
         currentState.vote(this, friendName, optionId);
+    }
+    public void addObserver(PollObserver observer) {
+        observers.add(observer);
+    }
+
+    public void notifyObservers(String message) {
+        for (PollObserver observer : observers) {
+            observer.update(message);
+        }
     }
 }
