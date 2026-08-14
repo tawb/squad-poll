@@ -1,5 +1,6 @@
 package domain;
-
+import iterator.PollIterator;
+import iterator.PollOptionIterator;
 import observer.PollObserver;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,5 +61,8 @@ public class Poll {
         for (PollObserver observer : observers) {
             observer.update(message);
         }
+    }
+    public PollIterator createIterator() {
+        return new PollOptionIterator(options);
     }
 }
