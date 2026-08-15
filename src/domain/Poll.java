@@ -1,6 +1,7 @@
 package domain;
 import iterator.PollIterator;
 import iterator.PollOptionIterator;
+import memento.PollMemento;
 import observer.PollObserver;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,5 +65,14 @@ public class Poll {
     }
     public PollIterator createIterator() {
         return new PollOptionIterator(options);
+    }
+    public PollMemento createMemento() {
+        return new PollMemento(votes, status.name());
+    }
+
+    public void restore(PollMemento memento) {
+        votes.clear();
+        votes.putAll(memento.getVotesSnapshot());
+        this.status = PollStatus.valueOf(memento.getStatusSnapshot());
     }
 }
