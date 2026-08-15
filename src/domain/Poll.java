@@ -9,6 +9,7 @@ import java.util.Map;
 import state.PollStateFactory;
 import state.PollState;
 import java.util.UUID;//Universally Unique Identifier
+import memento.PollMemento;
 
 public class Poll {
     private final String id;
@@ -64,5 +65,14 @@ public class Poll {
     }
     public PollIterator createIterator() {
         return new PollOptionIterator(options);
+    }
+    public memento.PollMemento createMemento() {
+        return new memento.PollMemento(votes, status.name());
+    }
+
+    public void restore(PollMemento memento) {
+        votes.clear();
+        votes.putAll(memento.getVotesSnapshot());
+        this.status = PollStatus.valueOf(memento.getStatusSnapshot());
     }
 }
