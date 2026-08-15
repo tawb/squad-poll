@@ -27,7 +27,7 @@ public class ResultsTallyVisitor implements PollVisitor {
         for (PollOption option : poll.getOptions()) {
             ////default to 0 if this option got no votes at all
             int votes = tally.getOrDefault(option.getId(), 0);
-            System.out.println("- " + option.getId() + ": " + votes + " votes");
+            System.out.println("- " + option.getLabel() + " (" + option.getId() + "): " + votes + " votes");
         }
     }
 }
