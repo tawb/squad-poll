@@ -9,7 +9,7 @@ public class Spin extends Tiebreaker {
     private final Random random = new Random();
     @Override
     public PollOption resolve(List<PollOption> tiedOptions) {
-        System.out.println("Leader is deciding via veto...");
+        System.out.println("Spinning the wheel...");
         if (!tiedOptions.isEmpty()) {
             int index = random.nextInt(tiedOptions.size());
             PollOption winner = tiedOptions.get(index);
