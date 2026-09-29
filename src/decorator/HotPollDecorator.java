@@ -1,7 +1,7 @@
 package decorator;
 
 import composite.PollComponent;
-
+import flyweight.*;
 
 public class HotPollDecorator extends PollDecorator {
     public HotPollDecorator(PollComponent wrapped) {
@@ -10,6 +10,6 @@ public class HotPollDecorator extends PollDecorator {
 
     @Override
     public String describe() {
-        return "🔥 " + wrapped.describe();
+        return IconFactory.get("🔥").getSymbol() + " " + wrapped.describe();
     }
 }

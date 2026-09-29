@@ -1,7 +1,7 @@
 package decorator;
 
 import composite.PollComponent;
-
+import flyweight.*;import flyweight.*;
 public class EndingSoonDecorator extends PollDecorator {
     public EndingSoonDecorator(PollComponent wrapped) {
         super(wrapped);
@@ -9,6 +9,6 @@ public class EndingSoonDecorator extends PollDecorator {
 
     @Override
     public String describe() {
-        return "⏰ " + wrapped.describe();
+        return IconFactory.get("⏰").getSymbol() + " " + wrapped.describe();
     }
 }
